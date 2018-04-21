@@ -9,7 +9,7 @@ import urllib
 import pickle
 import gzip
 import numpy as np
-from neuralnet import Network
+import neuralnet
 
 
 # testfile = urllib.URLopener()
@@ -21,9 +21,9 @@ def getDatasets():
     f.close()
 
     training_inputs 	= [np.reshape(x, (784, 1)) for x in training[0]]
-    # training_results 	= [vectorized_result(y) for y in training[1]]
-    # training_data 		= zip(training_inputs, training_results)
-    training_data 		= zip(training_inputs, training[1])
+    training_results 	= [vectorized_result(y) for y in training[1]]
+    training_data 		= zip(training_inputs, training_results)
+    # training_data 		= zip(training_inputs, training[1])
 
     validation_inputs 	= [np.reshape(x, (784, 1)) for x in validation[0]]
     # validation_results 	= [vectorized_result(y) for y in validation[1]]
@@ -50,6 +50,6 @@ if __name__ == '__main__':
 	#     2nd param is epochs count
 	#     3rd param is batch size
 	#     4th param is learning rate (eta)
-	net = Network([784, 30, 10])
-	net.gradientdescent(training, 30, 10, 3.0, test_data=testing)
+	net = neuralnet.Network([784, 30, 10])
+	net.gradientDescent(training, 30, 10, 3.0, test_data=testing)
 	# net.gradientdescent(training, 30, 10, 3.0)
