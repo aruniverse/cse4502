@@ -1,3 +1,5 @@
-numpy
-pickle
-gzip
+Packages that are need to be installed
+
+1) numpy
+2) pickle
+3) gzip
