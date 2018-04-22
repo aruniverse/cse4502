@@ -1,3 +1,10 @@
+#!/usr/bin/python
+
+# Author: Arun George
+# Class: UConn, CSE 4502, Spring 2018
+# Instructor: Sanguthevar Rajasekaran
+# Description: Final Project
+
 import numpy as np
 
 def sigmoid(z):
@@ -17,3 +24,9 @@ def relu(z):
 
 def reluPrime(z):
 	return float(z > 0)
+
+def tanh(z):
+	return np.tanh(z)
+
+def tanhPrime(z):
+	return 1 - tanh(z) * tanh(z)

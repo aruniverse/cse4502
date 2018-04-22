@@ -11,7 +11,15 @@ import pickle
 import gzip
 import numpy as np
 import matplotlib.pyplot as plt 
+from enum import Enum
 import neuralnet
+
+class Activations(Enum):
+    SIGMOID = 1
+    SOFTMAX = 2
+    RELU    = 0     # this wasn't working
+    TANH    = 3
+
 
 def getDatasets():
     if not os.path.exists('./mnist.pkl.gz') :
@@ -22,7 +30,7 @@ def getDatasets():
     f.close()
 
     training_inputs 	= [np.reshape(x, (784, 1)) for x in training[0]]
-    training_results 	= [vectorized_result(y) for y in training[1]]
+    training_results 	= [vectorizedResult(y) for y in training[1]]
     training_data 		= zip(training_inputs, training_results)
 
     validation_inputs 	= [np.reshape(x, (784, 1)) for x in validation[0]]
@@ -33,7 +41,7 @@ def getDatasets():
 
     return (training_data, validation_data, testing_data)
 
-def vectorized_result(j):
+def vectorizedResult(j):
     e = np.zeros((10, 1))
     e[j] = 1.0
     return e
@@ -44,21 +52,26 @@ def main():
     validation = list(validation)
     testing    = list(testing)
 
-    accuracyRates = []
-    alphaRates  = [0.001, 0.01, 0.1, 1, 3, 5, 10, 25, 100] 
-    net = neuralnet.Network([784, 30, 10])
-    for alphaIndex, alphaRate in enumerate(alphaRates):
-        print("Learning rate = {} ".format(alphaRate))
-        accuracy = net.gradientDescent(training, 30, 10, alphaRate, validation)
-        # accuracy = net.gradientDescent(training, 30, 10, 3.0, testing)
-        accuracyRates.append(accuracy)
+    alphaRates  = [0.001, 0.01, 0.1, 1, 3, 5, 10, 25, 50] 
+    for i in range(1, 4):
+        name = Activations(i).name
+        print(name)
+        accuracyRates = []
+        net = neuralnet.Network([784, 30, 10], i)
+        for alphaIndex, alphaRate in enumerate(alphaRates):
+            print("Learning rate = {} ".format(alphaRate))
+            accuracy = net.gradientDescent(training, 30, 10, alphaRate, validation)
+            # accuracy = net.gradientDescent(training, 30, 10, 3.0, testing)
+            accuracyRates.append(accuracy)
 
-    plt.xlabel('Learning Rate')
-    plt.ylabel('Accuracy')
-    plt.title('Neural Network')
-    plt.plot(alphaRates, accuracyRates)
-    plt.axis([0, 5, 0, 100])
-    plt.show()
+        plt.figure()
+        plt.xlabel('Learning Rate')
+        plt.ylabel('Accuracy')
+        plt.title('Neural Network')
+        plt.plot(alphaRates, accuracyRates)
+        plt.axis([0, 50, 0, 100])
+        # plt.show()
+        plt.savefig('NN_{}'.format(name))
 
 if __name__ == '__main__':
     main()

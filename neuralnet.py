@@ -8,17 +8,25 @@
 import random
 import numpy as np
 import activations as actvtn
+from enum import Enum
+
+class Activations(Enum):
+    SIGMOID = 1
+    SOFTMAX = 2
+    RELU    = 0     # this wasn't working
+    TANH    = 3
 
 class Network(object):
-    def __init__(self, sizes):
+    def __init__(self, sizes, activ):
         self.num_layers = len(sizes)
         self.sizes      = sizes
         self.biases     = [np.random.randn(y, 1) for y in sizes[1:]]
         self.weights    = [np.random.randn(y, x) for x, y in zip(sizes[:-1], sizes[1:])]
+        self.activ      = activ
 
     def feedForward(self, a):
         for b, w in zip(self.biases, self.weights):
-            a = actvtn.sigmoid(np.dot(w, a)+b)
+            a = self.activationFunction(np.dot(w, a)+b)
         return a
 
     def gradientDescent(self, training_data, epochs, mini_batch_size, eta, test_data):
@@ -30,8 +38,7 @@ class Network(object):
         for j in range(epochs):
             random.shuffle(training_data)
             mini_batches = [
-                training_data[k:k+mini_batch_size]
-                for k in range(0, n, mini_batch_size)]
+                training_data[k:k+mini_batch_size] for k in range(0, n, mini_batch_size)]
             for mini_batch in mini_batches:
                 self.updateMiniBatch(mini_batch, eta)
             correct_classification = self.evaluate(test_data)
@@ -60,14 +67,14 @@ class Network(object):
         for b, w in zip(self.biases, self.weights):
             z = np.dot(w, activation)+b
             zs.append(z)
-            activation = actvtn.sigmoid(z)
+            activation = self.activationFunction(z)
             activations.append(activation)
-        delta = self.costDerivative(activations[-1], y) * actvtn.sigmoidPrime(zs[-1])
+        delta = self.costDerivative(activations[-1], y) * self.activationPrimeFunction(zs[-1])
         nabla_b[-1] = delta
         nabla_w[-1] = np.dot(delta, activations[-2].transpose())
         for l in range(2, self.num_layers):
             z = zs[-l]
-            sp = actvtn.sigmoidPrime(z)
+            sp = self.activationPrimeFunction(z)
             delta = np.dot(self.weights[-l+1].transpose(), delta) * sp
             nabla_b[-l] = delta
             nabla_w[-l] = np.dot(delta, activations[-l-1].transpose())
@@ -79,3 +86,28 @@ class Network(object):
 
     def costDerivative(self, output_activations, y):
         return (output_activations - y)
+
+    def activationFunction(self, z):
+        if self.activ == Activations.SIGMOID.value :
+            return actvtn.sigmoid(z)
+        elif self.activ == Activations.SOFTMAX.value :
+            return actvtn.softmax(z)
+        elif self.activ == Activations.RELU.value :
+            return actvtn.relu(z)
+        elif self.activ == Activations.TANH.value :
+            return actvtn.tanh(z)
+        else :
+            return z
+
+    def activationPrimeFunction(self, z):
+        if self.activ == Activations.SIGMOID.value :
+            return actvtn.sigmoidPrime(z)
+        elif self.activ == Activations.SOFTMAX.value :
+            return actvtn.softmaxPrime(z)
+        elif self.activ == Activations.RELU.value :
+            return actvtn.reluPrime(z)
+        elif self.activ == Activations.TANH.value :
+            return actvtn.tanhPrime(z)
+        else :
+            return z
+            
