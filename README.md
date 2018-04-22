@@ -6,7 +6,7 @@
 * For each set of 30 epochs, we vary both activation function (sigmoid, RELU, tanh, and softmax) and the learning rates used during the gradient descent stage. The results are then plotted to show the accuracy of each configuration, along with comparing the rates at which the FNN learns with each of the configurations.
 
 ## How to Run
-* Run following command:
+* Run the following command:
  ```
  python test.py
  ```
