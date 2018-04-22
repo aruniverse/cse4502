@@ -6,9 +6,9 @@
 
 # How to Run
 * Run following command:
- '''
+ ```
  python test.py
- '''
+ ```
 
 
 # Requirments
