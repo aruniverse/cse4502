@@ -10,8 +10,5 @@
  ```
  python test.py
  ```
-## How to Train 
-* Use your know training set; for this case we have used MNIST dataset 
-
 ## Requirements
 * Python3 and beyond
