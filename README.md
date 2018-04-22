@@ -3,3 +3,6 @@
 1) Install all the requirement packages from requirement.txt
 2) Follow this command in to terminal " LIST_OUT_COMMAND "
 3) It will recognize the picture from the MNIST Dataset and output the proper answer.
+
+# Requirments
+* Python3 and up
