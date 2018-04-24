@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-# Author: Arun George
+# Author: Arun George, Vedant Patel, and Vishal Cherian 
 # Class: UConn, CSE 4502, Spring 2018
 # Instructor: Sanguthevar Rajasekaran
 # Description: Final Project
