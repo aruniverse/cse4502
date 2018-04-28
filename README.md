@@ -12,3 +12,6 @@
  ```
 ## Requirements
 * Python3 and beyond
+
+## References 
+* It is largely based on "Neural Networks and Deep Learning" book from Michael Nielsen
