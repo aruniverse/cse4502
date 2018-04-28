@@ -17,7 +17,7 @@ import neuralnet
 class Activations(Enum):
     SIGMOID = 1
     SOFTMAX = 2
-    RELU    = 0     # this wasn't working
+    # RELU    = 0     # this wasn't working
     TANH    = 3
 
 

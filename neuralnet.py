@@ -13,7 +13,7 @@ from enum import Enum
 class Activations(Enum):
     SIGMOID = 1
     SOFTMAX = 2
-    RELU    = 0     # this wasn't working
+    # RELU    = 0     # this wasn't working
     TANH    = 3
 
 class Network(object):
@@ -28,7 +28,7 @@ class Network(object):
         for b, w in zip(self.biases, self.weights):
             a = self.activationFunction(np.dot(w, a)+b)
         return a
-
+        
     def gradientDescent(self, training_data, epochs, mini_batch_size, eta, test_data):
         training_data = list(training_data)
         n = len(training_data)
@@ -92,8 +92,8 @@ class Network(object):
             return actvtn.sigmoid(z)
         elif self.activ == Activations.SOFTMAX.value :
             return actvtn.softmax(z)
-        elif self.activ == Activations.RELU.value :
-            return actvtn.relu(z)
+        # elif self.activ == Activations.RELU.value :
+        #     return actvtn.relu(z)
         elif self.activ == Activations.TANH.value :
             return actvtn.tanh(z)
         else :
@@ -104,8 +104,8 @@ class Network(object):
             return actvtn.sigmoidPrime(z)
         elif self.activ == Activations.SOFTMAX.value :
             return actvtn.softmaxPrime(z)
-        elif self.activ == Activations.RELU.value :
-            return actvtn.reluPrime(z)
+        # elif self.activ == Activations.RELU.value :
+        #     return actvtn.reluPrime(z)
         elif self.activ == Activations.TANH.value :
             return actvtn.tanhPrime(z)
         else :

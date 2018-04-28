@@ -19,11 +19,11 @@ def softmax(z):
 def softmaxPrime(z):
 	return softmax(z) * (1 - softmax(z))
 
-def relu(z):
-	return np.maximum(z, 0)
+# def relu(z):
+# 	return np.maximum(z, 0)
 
-def reluPrime(z):
-	return float(z > 0)
+# def reluPrime(z):
+# 	return float(z > 0)
 
 def tanh(z):
 	return np.tanh(z)
