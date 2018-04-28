@@ -7,6 +7,7 @@
 
 import numpy as np
 
+# Activation functions that were used to test the accuracy through Epoch 
 def sigmoid(z):
 	return 1.0 / (1.0 + np.exp(-z))
 
@@ -18,12 +19,6 @@ def softmax(z):
 
 def softmaxPrime(z):
 	return softmax(z) * (1 - softmax(z))
-
-# def relu(z):
-# 	return np.maximum(z, 0)
-
-# def reluPrime(z):
-# 	return float(z > 0)
 
 def tanh(z):
 	return np.tanh(z)

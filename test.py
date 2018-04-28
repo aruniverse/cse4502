@@ -17,7 +17,6 @@ import neuralnet
 class Activations(Enum):
     SIGMOID = 1
     SOFTMAX = 2
-    # RELU    = 0     # this wasn't working
     TANH    = 3
 
 
@@ -46,12 +45,15 @@ def vectorizedResult(j):
     e[j] = 1.0
     return e
 
+# Various kinds of datasets
 def main():
     training, validation, testing = getDatasets()
     training   = list(training)
     validation = list(validation)
     testing    = list(testing)
 
+
+    # Test vector; all the functions will go through for each of the elements inside alpharates array
     alphaRates  = [0.001, 0.01, 0.1, 1, 3, 5, 10, 25, 50] 
     for i in range(1, 4):
         name = Activations(i).name
@@ -61,9 +63,9 @@ def main():
         for alphaIndex, alphaRate in enumerate(alphaRates):
             print("Learning rate = {} ".format(alphaRate))
             accuracy = net.gradientDescent(training, 30, 10, alphaRate, validation)
-            # accuracy = net.gradientDescent(training, 30, 10, 3.0, testing)
             accuracyRates.append(accuracy)
 
+        # Graph Plotting
         plt.figure()
         plt.xlabel('Learning Rate')
         plt.ylabel('Accuracy')
@@ -71,6 +73,7 @@ def main():
         plt.plot(alphaRates, accuracyRates)
         plt.axis([0, 50, 0, 100])
         # plt.show()
+        # saving picture to your current directory 
         plt.savefig('NN_{}'.format(name))
 
 if __name__ == '__main__':
