@@ -58,10 +58,21 @@ def main():
     for i in range(1, 4):
         name = Activations(i).name
         print(name)
+        logFile = 'log_{}'.format(name)
+        with open(logFile, 'w') as lf :
+            pass    # flush the file everytime we run the tests
+            lf.write(name)
+            lf.write("\n")
+        lf.close()
+
         accuracyRates = []
         net = neuralnet.Network([784, 30, 10], i)
         for alphaIndex, alphaRate in enumerate(alphaRates):
             print("Learning rate = {} ".format(alphaRate))
+            with open(logFile, 'a+') as lf :    # append to the log file test data 10 times for each length
+                lf.write("\tLearning rate = {} ".format(alphaRate))
+                lf.write("\n")
+            lf.close()
             accuracy = net.gradientDescent(training, 30, 10, alphaRate, validation)
             accuracyRates.append(accuracy)
 

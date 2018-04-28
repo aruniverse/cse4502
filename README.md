@@ -13,6 +13,9 @@
 ## Requirements
 * Python3 and beyond
 * Refer to __requirements.txt__ file 
+ ```
+ pip install -r requirements.txt
+ ```
 
 ## References 
 * It is largely based on "Neural Networks and Deep Learning" book from Michael Nielsen

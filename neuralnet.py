@@ -25,16 +25,14 @@ class Network(object):
         self.weights    = [np.random.randn(y, x) for x, y in zip(sizes[:-1], sizes[1:])]
         self.activ      = activ
 
-# Assuming a is the input, it returns the ouput of the network 
+    # Assuming a is the input, it returns the ouput of the network 
     def feedForward(self, a):
         for b, w in zip(self.biases, self.weights):
             a = self.activationFunction(np.dot(w, a)+b)
-          return a
+        return a
 
-'''
-    Train the model using minibatches. For each of the Epoch NN will be 
-    evaluated against our test data and ouput accuracy.
-'''
+    # Train the model using minibatches. For each of the Epoch NN will be 
+    # evaluated against our test data and ouput accuracy.
     def gradientDescent(self, training_data, epochs, mini_batch_size, eta, test_data):
         training_data = list(training_data)
         n = len(training_data)
@@ -49,12 +47,18 @@ class Network(object):
                 self.updateMiniBatch(mini_batch, eta)
             correct_classification = self.evaluate(test_data)
             print("Epoch {} : {} / {}".format(j, correct_classification, n_test));
+
+            logFile = 'log_{}'.format(Activations(self.activ).name)
+            with open(logFile, 'a+') as lf :    # append to the log file test data 10 times for each length
+                lf.write("\t\tEpoch {} : {} / {}".format(j, correct_classification, n_test))
+                lf.write("\n")
+            lf.close()
+
             accuracy = correct_classification / n_test * 100
         return accuracy
-'''
-    Applying gradientDescent to update weights and biases to a single mini batch 
-    when using backPropagation
-'''   
+
+    # Applying gradientDescent to update weights and biases to a single mini batch 
+    # when using backPropagation  
     def updateMiniBatch(self, mini_batch, eta):
         nabla_b = [np.zeros(b.shape) for b in self.biases]
         nabla_w = [np.zeros(w.shape) for w in self.weights]
@@ -66,11 +70,10 @@ class Network(object):
                         for w, nw in zip(self.weights, nabla_w)]
         self.biases = [b-(eta/len(mini_batch))*nb
                        for b, nb in zip(self.biases, nabla_b)]
-'''
-    After weights and biases are updated, we can apply different activation functions 
-    to test the accuracy of a model. It return a tuple list representing gradient for all 
-    the cost functions. l represents the last layer of neurons 
-'''
+
+    # After weights and biases are updated, we can apply different activation functions 
+    # to test the accuracy of a model. It return a tuple list representing gradient for all 
+    # the cost functions. l represents the last layer of neurons 
     def backPropagation(self, x, y):
         nabla_b = [np.zeros(b.shape) for b in self.biases]
         nabla_w = [np.zeros(w.shape) for w in self.weights]
@@ -93,16 +96,16 @@ class Network(object):
             nabla_w[-l] = np.dot(delta, activations[-l-1].transpose())
         return (nabla_b, nabla_w)
 
-# It will return the corrected result for the # of test inputs 
+    # It will return the corrected result for the # of test inputs 
     def evaluate(self, test_data):
         test_results = [(np.argmax(self.feedForward(x)), y) for (x, y) in test_data]
         return sum(int(x == y) for (x, y) in test_results)
 
-# Return the vector full of partial derivatives for activation functions
+    # Return the vector full of partial derivatives for activation functions
     def costDerivative(self, output_activations, y):
         return (output_activations - y)
 
-# Applying various kinds of activation functions.
+    # Applying various kinds of activation functions.
     def activationFunction(self, z):
         if self.activ == Activations.SIGMOID.value :
             return actvtn.sigmoid(z)
@@ -113,7 +116,7 @@ class Network(object):
         else :
             return z
 
-# Applying derivaties for each of the activation functiions 
+    # Applying derivaties for each of the activation functiions 
     def activationPrimeFunction(self, z):
         if self.activ == Activations.SIGMOID.value :
             return actvtn.sigmoidPrime(z)
@@ -123,4 +126,3 @@ class Network(object):
             return actvtn.tanhPrime(z)
         else :
             return z
-            
