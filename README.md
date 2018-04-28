@@ -12,7 +12,7 @@
  ```
 ## Requirements
 * Python3 and beyond
-* Refer to requirements.txt file 
+* Refer to __requirements.txt__ file 
 
 ## References 
 * It is largely based on "Neural Networks and Deep Learning" book from Michael Nielsen
